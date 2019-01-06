@@ -1,0 +1,12 @@
+<% include partials/header %>
+
+<div id="login">
+    <form id="login-form" action="/api/users" method="POST">
+        <input type="text" name="username" />
+        <input type="text" type="password" name="password" />
+        <input type="submit" value="LOG IN" />
+        <button onclick="loadRegistration()">REGISTER</button>
+    </form>
+</div>
+
+<% include partials/footer %>
