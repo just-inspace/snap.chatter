@@ -3,6 +3,8 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
 const config = require("./config");
+const User = require("./app/models/users");
+const bcrypt = require("bcryptjs");
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -15,7 +17,7 @@ router.use(bodyParser.json());
 // generate new token
 router.use('/registration/new.json', function (req, res, next) {
     if (req.headers['content-type'] !== 'application/json') {
-        next();
+        return next();
     }
     let token = jwt.sign({ username: req.body.username }, config.secret, {
         expiresIn: 86400
@@ -28,10 +30,26 @@ router.use('/registration/new.json', function (req, res, next) {
 // no token checking
 // check username exists
 // check password matches
+// generate token
 router.use('/login.json', function (req, res, next) {
+    if (req.headers['content-type'] !== 'application/json') {
+        res.render("home");
+    }
+
+    User.find({ username: req.body.username }, (err, res) => {
+        if (res.length > 0) {
+            console.log("matching user found");
+        }
+    }).find({ password: bcrypt.hashSync(req.body.password, 8) }, (err, res) => {
+        if (res.length > 0) {
+            console.log("matching password found");
+        }
+    });
+
     let token = jwt.sign({ username: req.body.username }, config.secret, {
         expiresIn: 86400
     });
+
     req.token = token;
     res.auth = true;
     next();

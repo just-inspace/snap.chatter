@@ -9,14 +9,14 @@
 
 // TO DO - LOG IN SCRIPT
 
-let form = document.querySelector("#login-form");
-form.addEventListener("submit", event => {
-    console.log("Sending form...", form.elements.username.value, form.elements.password.value);
+let loginForm = document.querySelector("#login-form");
+loginForm.addEventListener("submit", event => {
+    console.log("Sending loginForm...", loginForm.elements.username.value, loginForm.elements.password.value);
     let data = {
-        username: form.elements.username.value,
-        password: form.elements.password.value
+        username: loginForm.elements.username.value,
+        password: loginForm.elements.password.value
     };
-    fetch("/api/registration/new.json", {
+    fetch("/api/login.json", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -25,17 +25,43 @@ form.addEventListener("submit", event => {
     })
         .then(response => response.text())
         .then(response => {
-            console.log(response);
+            //save response objects in local storage;
         });
 
     event.preventDefault();
-})
+});
 // TO DO - REGISTRATION SCRIPT; Landing page and Register new request
+let registrationForm = document.querySelector("#registration-form");
+loginForm.addEventListener("submit", event => {
+    console.log("Sending registrationForm...", registrationForm.elements.username.value, registrationForm.elements.password.value);
+    let data = {
+        username: registrationForm.elements.username.value,
+        email: registrationForm.elements.email.value,
+        password: registrationForm.elements.password.value
+    };
+    fetch("/api/registraion/new.json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.text())
+        .then(response => {
+            //save response objects in local storage;
+        });
+
+    event.preventDefault();
+});
 
 // Landing
 function loadRegistration() {
+    console.log("clicked");
     // TO DO - FETCH REQUEST FOR /api/registration
-    fetch()
+    fetch("/api/registration")
+        .then(res => {
+            console.log(res);
+        });
 }
 
 // Register new

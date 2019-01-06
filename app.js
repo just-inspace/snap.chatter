@@ -17,6 +17,12 @@ app.set("view engine", "ejs");
 
 app.use('/api', router);
 
+// TO DO - LOAD REGISTRATION FORM
+app.get("/api/registration", function (req, res) {
+    console.log("request received");
+    res.render("registration");
+});
+
 // TO DO - ADD JWT
 // TO DO - ADD MIDDLEWARE FOR VALIDATING NEW USER
 // check username exists
@@ -40,18 +46,19 @@ app.post("/api/registration/new.json", function (req, res) {
         res.json({ username: user.username, email: user.email, token: req.token });
     });
 });
+
 app.post("/api/registration/new", function (req, res) {
     res.render("chatroom", { username: req.body.username, email: req.body.email });
 });
 
-// TO DO - REMOVE THE FOLLOWING BLOCK 
-router.get('/api/login.json', function (req, res) {
+// LOGIN ROUTE JSON CONFIRMATION
+router.post('/api/login.json', function (req, res) {
 
-    User.findById(decoded.id).exec(function (err, user) {
-        if (err) return res.status(500).send({ message: "Failed to find user" });
+    //User.find(decoded.id).exec(function (err, user) {
+    //    if (err) return res.status(500).send({ message: "Failed to find user" });
 
-        res.json({ username: user.username, email: user.email, token: req.token });
-    });
+    //    res.json({ username: user.username, email: user.email, token: req.token });
+    //});
 
 });
 
