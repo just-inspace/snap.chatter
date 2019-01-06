@@ -9,7 +9,7 @@ const config = require("./config");
 const User = require("./app/models/users");
 
 // TO DO - CONNECT TO DB
-mongoose.connect(encodeURI(process.env.DBString));
+mongoose.connect(encodeURI(process.env.DBString), { 'useNewUrlParser': true });
 
 // TO DO - ADD SOCKET.IO
 
@@ -51,7 +51,11 @@ router.get('/me', function (req, res) {
     jwt.verify(token, config.secret, function (err, decoded) {
         if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
 
-        res.status(200).send(decoded);
+        User.findById(decoded.id).exec(function (err, user) {
+            if (err) return res.status(500).send({ message: "Failed to find user" });
+
+            res.status(200).send({ username: user.username, email: user.email });
+        });
     });
 });
 
