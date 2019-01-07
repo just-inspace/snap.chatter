@@ -1,12 +1,15 @@
 <% include partials/header %>
 
 <div id="login">
-    <form id="login-form" action="/api/login" method="POST">
+    <form id="login-form" action="" method="POST">
         <input type="text" name="username" />
         <input type="password" name="password" />
         <input type="submit" value="LOG IN" />
     </form>
-    <button onclick="loadRegistration()">REGISTER</button>
+    <form id="register" action="/api/registration" method="POST">
+        <input type="submit" value="REGISTER" />
+    </form>
 </div>
 
+<script src="/login.js"></script>
 <% include partials/footer %>

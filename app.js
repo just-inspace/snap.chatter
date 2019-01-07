@@ -17,12 +17,6 @@ app.set("view engine", "ejs");
 
 app.use('/api', router);
 
-// TO DO - LOAD REGISTRATION FORM
-app.get("/api/registration", function (req, res) {
-    console.log("request received");
-    res.render("registration");
-});
-
 // TO DO - ADD JWT
 // TO DO - ADD MIDDLEWARE FOR VALIDATING NEW USER
 // check username exists
@@ -49,6 +43,12 @@ app.post("/api/registration/new.json", function (req, res) {
 
 app.post("/api/registration/new", function (req, res) {
     res.render("chatroom", { username: req.body.username, email: req.body.email });
+});
+
+// TO DO - LOAD REGISTRATION FORM
+app.use("/api/registration", function (req, res) {
+    console.log("request received");
+    res.render("registration");
 });
 
 // LOGIN ROUTE JSON CONFIRMATION
