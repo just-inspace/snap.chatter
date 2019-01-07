@@ -2,5 +2,20 @@
 
 <h1>
     <%= username %>, YOU MADE IT!</h1>
+    <div id="messages"></div>
+    <form id="chatroom">
+        <textarea class="messagebox"></textarea>
+        <input type="submit" name="send" value="SEND" />
+    </form>
 
+    <script type="text/javascript">
+        let form = document.querySelector("#chatroom");
+        console.log(form);
+        form.addEventListener("submit", (event) => {
+            console.log("clicked");
+            event.preventDefault();
+            document.querySelector("#messages")
+                .innerHTML += "<p class='message'>MESSAGE</p>";
+        });
+    </script>
 <% include partials/footer %>

@@ -23,9 +23,16 @@ loginForm.addEventListener("submit", event => {
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.text())
         .then(response => {
+            if (!response.ok) {
+                throw Error (response.statusText);
+            }
+            window.location = "/api/messages";
             //save response objects in local storage;
+        })
+        .catch(error => {
+            console.log(error);
+            // message username/pass not found
         });
 
     event.preventDefault();
