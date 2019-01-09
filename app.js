@@ -1,10 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const path = require('path');
 
 app.use(express.static('public'));
+app.use(express.static('views'));
+
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
 
 app.post("/api/login", (req, res) => {
     res.body = { "username": req.body.username };
@@ -12,11 +14,11 @@ app.post("/api/login", (req, res) => {
 });
 
 app.use("/api/messages/:username", (req, res) => {
-    res.render("chatroom", { username: req.params.username });
+    res.sendFile(path.join(__dirname + "/views/chat.html"));
 });
 
 app.get("/", function (req, res) {
-    res.render("home");
+    res.sendFile(path.join(__dirname + "/views/home.html"));
 });
 
 app.listen(1337, function () {
