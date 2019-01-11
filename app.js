@@ -9,6 +9,7 @@ app.use(express.static('views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/api/login", (req, res) => {
+    console.log(req.body);
     res.body = { "username": req.body.username };
     res.redirect("/api/messages/" + req.body.username);
 });
