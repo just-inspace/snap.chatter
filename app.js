@@ -7,6 +7,14 @@ const io = require('socket.io')(http);
 const staticScriptsPath = './public/scripts';
 const staticCSSPath = './public/styles';
 
+let messageList = [];
+
+var chatTimer = setInterval(() => {
+    if (messageList.length > 0) {
+        io.emit('chat message', messageList.shift());
+    }
+}, 30000);
+
 app.use('/scripts', (req, res) => {
     const resolvedBase = path.resolve(staticScriptsPath);
     const safeSuffix = path.normalize(req.url).replace(/^(\.\.[\/\\]]])+/, '');
@@ -37,7 +45,7 @@ io.on('connection', (socket) => {
 
     socket.on('chat message', (msg) => {
         console.log("Message:", msg);
-        socket.broadcast.emit('chat message', msg);
+        messageList.push(msg);
     });
 
     socket.on('disconnect', () => {

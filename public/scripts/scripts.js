@@ -16,6 +16,7 @@ $(() => {
     });
     socket.on('chat message', (msg) => {
         console.log(msg);
+        $('#message-list').empty();
         $('#message-list').append('<li alt="new message" class="message">' +
             '<h1 alt="sender" class="username">' +
             msg.username +
