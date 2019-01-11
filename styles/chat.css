@@ -1,0 +1,121 @@
+@font-face {
+    font-family: Rubik;
+    src: url("fonts/Rubik/Rubik-Regular.ttf");
+}
+
+body {
+    margin:0;
+    padding:0;
+    font-size:16px;
+    font-family: Rubik, sans-serif;
+    background-color:#242423;
+}
+
+#generator {
+    border:0;
+    border-radius: 10px;
+    color: #282827;
+    background: #E6EDDF;
+    display:block;
+    margin:15px auto;
+    padding:10px;
+    font-size:inherit;
+    font-family:inherit;
+}
+
+#backstripe {
+    position:fixed;
+    background-color: #F5CB5C;
+    left:50%;
+    top:0;
+    width: 150px;
+    height: 100vh;
+    transform: skewX(-40deg);
+}
+
+#message-window {
+    position:fixed;
+    background-color: #E6EDDF;
+    width:100%;
+    height:300px;
+    left:0;
+    top:20%;
+}
+
+#message-list {
+    list-style-type: none;
+    padding:0;
+    margin:0;
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    grid-auto-rows: auto; 
+    grid-gap: 1rem;
+    overflow:none;
+}
+
+.message {
+    height:254px;
+    width:200px;
+    margin:15px 15px;
+    float:left;
+    background-color:#F5CB5C;
+    padding:10px 10px 0;
+    border-radius: 10px;
+    border: 3px solid #B6BBAD;
+}
+
+.username {
+    margin:0 0 10px;
+    padding:0;
+    font-size:20px;
+    font-style: italic;
+}
+
+#message-form {
+    position:fixed;
+    width:250px;
+    height:300px;
+    top:60%;
+    left:50%;
+    transform: translateX(-50%);
+    background-color: #E6EDDF;
+    border-radius:10px;
+}
+
+#message-box {
+    resize:none;
+    display:block;
+    width:89%;
+    height:60%;
+    margin:5% auto;
+    padding:5px;
+    border: 1px solid #B6BBAD;
+    border-radius: 10px;
+    font-size:14px;
+    font-family:inherit;
+    line-height: 1.5em;
+}
+
+.submit {
+    border:0;
+    border-radius: 10px;
+    background: #282827;
+    color: #E6EDDF;
+    display:block;
+    margin:15px auto;
+    padding:10px;
+    font-size:inherit;
+    font-family:inherit;
+}
+
+
+/** COLORS **/
+
+/* .colors {
+    color: #242423; /* BACKGROUND *
+    color: #F5CB5C; /* FOCUS/STYLED ELEMENTS *
+    color: #E6EDDF; /* CONTENT BACKGROUNDS *
+    color: #B6BBAD; /* CONTENT BORDERS *
+    color: #282827; /* BUTTONS AND LABELS *
+} */
+

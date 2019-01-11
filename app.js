@@ -1,27 +1,28 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
 const app = express();
-const path = require('path');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
-app.use(express.static('public'));
-app.use(express.static('views'));
+app.use(express.static("scripts"));
+app.use(express.static("styles"));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.post("/api/login", (req, res) => {
-    console.log(req.body);
-    res.body = { "username": req.body.username };
-    res.redirect("/api/messages/" + req.body.username);
+app.use('/', (req, res) => {
+    res.sendFile(__dirname + '/chat.html');
 });
 
-app.use("/api/messages/:username", (req, res) => {
-    res.sendFile(path.join(__dirname + "/views/chat.html"));
+io.on('connection', (socket) => {
+    console.log("user connected");
+
+    socket.on('chat message', (msg) => {
+        console.log("Message:", msg);
+        socket.broadcast.emit('chat message', msg);
+    });
+
+    socket.on('disconnect', () => {
+        console.log("user disconnected");
+    });
 });
 
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname + "/views/home.html"));
-});
-
-app.listen(1337, function () {
-    console.log("I can hear you on 1337");
+http.listen(1337, () => {
+    console.log("MUCH LISTEN ON 1337");
 });
