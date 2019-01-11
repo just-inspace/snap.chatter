@@ -26,6 +26,10 @@ $(() => {
             '</span>' +
             '</li>');
     });
+    socket.on('delete', () => {
+        console.log('delete received...');
+        $('#message-list').empty();
+    });
 });
 
 // let count = 1;

@@ -8,10 +8,15 @@ const staticScriptsPath = './public/scripts';
 const staticCSSPath = './public/styles';
 
 let messageList = [];
+let deleteLast = false;
 
 var chatTimer = setInterval(() => {
     if (messageList.length > 0) {
         io.emit('chat message', messageList.shift());
+        deleteLast = true;
+    } else if (deleteLast) {
+        io.emit('delete');
+        deleteLast = false;
     }
 }, 30000);
 
