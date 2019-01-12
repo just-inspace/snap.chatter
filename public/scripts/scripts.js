@@ -15,9 +15,9 @@ $(() => {
         return false;
     });
     socket.on('chat message', (msg) => {
-        console.log(msg);
+
         $('#message-list').empty();
-        $('#message-list').append('<li alt="new message" class="message">' +
+        $('#message-list').append('<li alt="new message" class="message new-message anim-new-message">' +
             '<h1 alt="sender" class="username">' +
             msg.username +
             '</h1>' +
@@ -25,9 +25,14 @@ $(() => {
             msg.content +
             '</span>' +
             '</li>');
+
+        setTimeout(() => {
+            $('#message-list li').removeClass('new-message')
+        }, 3000);
     });
     socket.on('delete', () => {
         console.log('delete received...');
+
         $('#message-list').empty();
     });
 });

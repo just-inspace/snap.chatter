@@ -3,6 +3,29 @@
     src: url("/styles/fonts/Rubik/Rubik-Regular.ttf");
 }
 
+@keyframes new-message{
+
+    to {
+        margin-left:0px;
+    }
+
+}
+@keyframes old-message{
+
+    to {
+        margin-left:-5000px;
+    }
+}
+
+.new-message {
+    margin-left:5000px;
+}
+
+.anim-new-message {
+    animation: new-message 3s ease-in-out 0s 1 normal forwards,
+               old-message 3s ease-in-out 27s 1 normal forwards;
+}
+
 body {
     margin:0;
     padding:0;
@@ -57,8 +80,8 @@ body {
 .message {
     height:254px;
     width:200px;
-    margin:15px 15px;
-    float:left;
+    margin-top:15px;
+    margin-bottom:15px;
     background-color:#F5CB5C;
     padding:10px 10px 0;
     border-radius: 10px;
