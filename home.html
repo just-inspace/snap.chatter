@@ -9,7 +9,7 @@
     <style>
         @font-face {
             font-family: Rubik;
-            src: url("/fonts/Rubik/Rubik-Regular.ttf");
+            src: url("/styles/fonts/Rubik/Rubik-Regular.ttf");
         }
 
         body {
@@ -109,9 +109,8 @@
         <div id="view-window">
             <div id="window-bottom"></div>
         </div>
-        <form id="send-form" action="/api/login" method="POST">
+        <form id="send-form" action="/" method="POST">
             <input class="username-input" type="text" name="username" maxlength="17" placeholder="Enter a username...">
-            <input style="display:none;" type="text" name="hidden" value="username">
             <button type="submit">Send</button>
         </form>
     </div>
