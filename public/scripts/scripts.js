@@ -44,7 +44,7 @@ $(() => {
     socket.on('chat message', (msg) => {
         $('#message-window').empty();
         $('#message-window').append('<div alt="new message" class="message anim-new">' +
-            '<h1 alt="sender" class="username">' +
+            '<h1 alt="sender" class="heading">' +
             msg.username +
             ' says...</h1>' +
             '<span alt="message content" class="message-content">' +
@@ -63,4 +63,13 @@ $(() => {
     socket.on('delete', () => {
         $('#message-window').empty();
     });
+
+    /** Recieve message limit error from socket */
+    socket.on('message limit', () => {
+        $('.error-message').remove();
+        $('#message-form').append('<p class="error-message">Error: Server Message Limit</p>');
+        let error = setTimeout(() => {
+            $('.error-message').remove();
+        }, 10000);
+    })
 });

@@ -5,113 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>express your.self</title>
-    <style>
-        @font-face {
-            font-family: Rubik;
-            src: url("/styles/fonts/Rubik/Rubik-Regular.ttf");
-        }
+    <title>[snap].[chatter]</title>
+    <link rel="stylesheet" href="/styles/styles.css" />
 
-        body {
-            margin: 0;
-            padding: 0;
-            background: #242423;
-            font-family: Rubik;
-        }
-
-        #send-form {
-            text-align:left;
-        }
-
-        .username-input {
-            border: none;
-            margin-left: 3px;
-            padding: 15px 26px 15px 5px;
-            font-style: italic;
-            font-size: 18px;
-        }
-
-        textarea {
-            outline:none;
-            resize:none; 
-            height:46px;
-            width:230px;
-            margin-left:3px;
-            border-radius: 5px;
-            font-family: Rubik;
-        }
-
-        button {
-            background:#282827;
-            border:none;
-            color:#E6EDDF;
-            float:right;
-            padding: 18px 0;
-            width: 55px;
-            border-radius: 5px;
-            margin-right: 3px;
-        }
-        #backstripe {
-            position: fixed;
-            top: 50%;
-            height: 10%;
-            width: 100%;
-            background-color: #F5CB5C;
-            transform: skewY(5deg);
-            z-index: 1;
-        }
-
-        #app {
-            background-color: #E8EDDF;
-            color: #333533;
-            text-align: center;
-            width: 300px;
-            height: 350px;
-            margin-left: auto;
-            margin-right: auto;
-            top:32%;
-            left:40%;
-            z-index: 2;
-            position: absolute;
-            border-radius: 15px;
-        }
-
-        #window-top {
-            width: 100%;
-            height: 20px;
-            background-color: #E8EDDF;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-        }
-
-        #window-bottom {
-            width: 100%;
-            height: 20px;
-            position: relative;
-            background-color: #E8EDDF;
-        }
-
-        #view-window {
-            width: 100%;
-            height: 20%;
-            overflow-y: auto;
-        }
-
-    </style>
 </head>
 
 <body>
     <div id="backstripe"></div>
     <header></header>
     <div id="app">
-        <div id="window-top"></div>
-        <h1 class="login-title">express your.self</h1>
-        <div id="view-window">
-            <div id="window-bottom"></div>
-        </div>
-        <form id="send-form" action="/" method="POST">
-            <input class="username-input" type="text" name="username" maxlength="17" placeholder="Enter a username...">
-            <button type="submit">Send</button>
+        <form id="login-form" action="/" method="POST">
+            <h1 id="heading-home">[snap].[chatter]</h1>
+            <input id="username-input" type="text" name="username" maxlength="17" placeholder="Enter a username...">
+            <button type="submit" class="submit">Send</button>
         </form>
     </div>
     <footer></footer>

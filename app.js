@@ -58,14 +58,18 @@ setTimeout(function message() {
  * Socket.IO Functions
  *  * 'connection'
  *  * 'chat message'
+ *  * 'message limit'
  *  * 'disconnect'
  */
 io.on('connection', (socket) => {
     console.log("user connected");
 
     socket.on('chat message', (msg) => {
-        if (messageList.length < 10)
+        if (messageList.length < 2)
             messageList.push(msg);
+        else {
+            socket.emit('message limit');
+        }
     });
 
     socket.on('disconnect', () => {
