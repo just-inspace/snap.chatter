@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
     console.log("user connected");
 
     socket.on('chat message', (msg) => {
-        if (messageList.length < 3)
+        if (messageList.length < 10)
             messageList.push(msg);
     });
 
