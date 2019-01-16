@@ -1,88 +1,88 @@
-const express = require("express");
-const router = require("./middle");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+/**
+ * Server File
+ * 
+ * Responsibilities:
+ *  * Control all routing
+ *  * Control socket.io funcions
+ *    * Message Send/Recieve/Delete
+ *    * Associated timers
+ *  * Maintain array of messages as queue-like structure
+ */
+const router = require('./routes');
+const express = require('express');
 const app = express();
-const bcrypt = require("bcryptjs");
-const User = require("./app/models/users");
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
-// TO DO - CONNECT TO DB
-mongoose.connect(encodeURI(process.env.DBString), { 'useNewUrlParser': true });
+// Array of current messages
+let messageList = [];
 
-// TO DO - ADD SOCKET.IO
+// Flag to send delete request when list is empty
+let deleteLast = false;
 
-app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
+/**
+ * Message Send Timer
+ *   * Dequeue messages and set expiration timer
+ *   * Ensure timer is between 8 and 30 seconds
+ *   * Send oldest message
+ *   * Send delete request when list is empty
+ */
+setTimeout(function message() {
+    let interval = 1;
+    if (messageList.length > 0) {
+        interval = messageList[0].timeout;
+        if (interval) {
+            if (interval < 8)
+                interval = 8;
 
-app.use('/api', router);
+            if (interval > 30)
+                interval = 30;
+        } else {
+            interval = 8;
+        }
+        messageList[0].timeout = interval;
 
-// TO DO - ADD JWT
-// TO DO - ADD MIDDLEWARE FOR VALIDATING NEW USER
-// check username exists
-// check email exists
-// hash the password
-// store new user
-app.post("/api/registration/new.json", function (req, res) {
-    if (req.headers["content-type"] !== 'application/json') {
-        res.render("home");
+        // Dequeue and emit the oldest message
+        io.emit('chat message', messageList.shift());
+        deleteLast = true;
+    } else if (deleteLast) {
+        interval = 1;
+        io.emit('delete');
+        deleteLast = false;
     }
-    const data = req.body;
-    const hashedPassword = bcrypt.hashSync(data.password, 8);
 
-    User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: hashedPassword
-    }, function (err, user) {
-        if (err) return res.status(500).send("There was a problem registering...oops");
+    messageTimeout = setTimeout(message, 1000 * interval);
+}, 1000);
 
-        res.json({ username: user.username, email: user.email, token: req.token });
+/**
+ * Socket.IO Functions
+ *  * 'connection'
+ *  * 'chat message'
+ *  * 'message limit'
+ *  * 'disconnect'
+ */
+io.on('connection', (socket) => {
+    console.log("user connected");
+
+    socket.on('chat message', (msg) => {
+        if (messageList.length < 2)
+            messageList.push(msg);
+        else {
+            socket.emit('message limit');
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log("user disconnected");
     });
 });
 
-app.post("/api/registration/new", function (req, res) {
-    res.render("chatroom", { username: req.body.username, email: req.body.email });
-});
+/**
+ * HTTP Server Start
+ */
+app.use(express.static('public'));
+app.use('/', router);
 
-// TO DO - LOAD REGISTRATION FORM
-app.use("/api/registration", function (req, res) {
-    console.log("request received");
-    res.render("registration");
-});
-
-// LOGIN ROUTE JSON CONFIRMATION
-router.post('/api/login.json', function (req, res) {
-
-    //User.find(decoded.id).exec(function (err, user) {
-    //    if (err) return res.status(500).send({ message: "Failed to find user" });
-
-    //    res.json({ username: user.username, email: user.email, token: req.token });
-    //});
-
-});
-
-router.get('/api/login', function (req, res) {
-
-    User.findById(decoded.id).exec(function (err, user) {
-        if (err) return res.status(500).send({ message: "Failed to find user" });
-
-        res.render("chatroom", { username: user.username, email: user.email });
-    });
-
-});
-// TO DO - BUILD THE ROUTES
-
-app.get("/", function (req, res) {
-    res.render("home");
-});
-
-/*
-app.post("/api/user/:username/login", function (req, res) {
-
-    res.render("chatroom");
-});
-*/
-app.listen(1337, function () {
-    console.log("I can hear you on 1337");
+http.listen(1337, () => {
+    console.log("MUCH LISTEN ON 1337");
 });
