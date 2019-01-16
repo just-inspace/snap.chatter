@@ -1,52 +1,28 @@
 @font-face {
     font-family: Rubik;
-    src: url("/styles/fonts/Rubik/Rubik-Regular.ttf");
+    src: url("styles/fonts/Rubik/Rubik-Regular.ttf");
 }
 
-@keyframes new-message{
-
-    to {
-        margin-left:0px;
-    }
-
+@keyframes new-big {
+    to {margin-left:0%;}
 }
-@keyframes old-message{
-
-    to {
-        margin-left:-5000px;
-    }
+@keyframes old-big {
+    to {margin-right:1500%;}
 }
-
-.new-message {
-    margin-left:5000px;
+@keyframes new-small {
+    to {margin-bottom:0%;}
 }
-
-.anim-new-message {
-    animation: new-message 2s ease-in-out 0s 1 normal forwards;
-}
-
-.anim-old-message {
-    animation: old-message 2s ease-in-out 0s 1 normal forwards;
+@keyframes old-small {
+    to {margin-top:1500%;}
 }
 
 body {
     margin:0;
     padding:0;
+    overflow:hidden;
     font-size:16px;
     font-family: Rubik, sans-serif;
     background-color:#242423;
-}
-
-#generator {
-    border:0;
-    border-radius: 10px;
-    color: #282827;
-    background: #E6EDDF;
-    display:block;
-    margin:15px auto;
-    padding:10px;
-    font-size:inherit;
-    font-family:inherit;
 }
 
 #backstripe {
@@ -59,32 +35,116 @@ body {
     transform: skewX(-40deg);
 }
 
-#message-window {
-    position:fixed;
-    background-color: #E6EDDF;
-    width:100%;
-    height:300px;
-    left:0;
-    top:10%;
+@media (max-height:599px) {
+    #message-container {
+        display:grid;
+        grid-template-columns: 5% 40% 10% 40% 5%;
+        grid-template-rows: 10% auto 10%;
+        justify-items: center;
+        align-items: center;
+        height:100vh;
+    }
+    
+    #message-window {
+        grid-column-start:2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: span3;
+        z-index:3;
+        background-color:#E6EDDF;
+        justify-self:stretch;
+        align-self:stretch;
+    
+        display:grid;
+        grid-template-columns: 100%;
+        grid-template-rows: auto 70% auto;
+        justify-items: center;
+        align-items: center;
+    }
+    
+    .message {
+        position:relative;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        height:100%;
+        background-color: #F5CB5C;
+        border-radius: 10px;
+        padding: 10px;
+        z-index: 4;
+    }
+    
+    #message-form {
+        grid-column-start: 4;
+        grid-column-end: 5;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        z-index: 4;
+        justify-self: center;
+    }
+
+    .anim-new {
+        animation: new-small 2s ease-in-out 0s 1 normal forwards;
+    }
+    
+    .anim-old {
+        animation: old-small 2s ease-in-out 0s 1 normal forwards;
+    }
+    .new-message {
+        margin-bottom:1500%;
+    }
 }
 
-#message-list {
-    list-style-type: none;
-    padding:0;
-    margin:0;
-    display: flex; 
-    justify-content: center;
-}
-
-.message {
-    height:254px;
-    width:200px;
-    margin-top:15px;
-    margin-bottom:15px;
-    background-color:#F5CB5C;
-    padding:10px 10px 0;
-    border-radius: 10px;
-    border: 3px solid #B6BBAD;
+@media (min-height:600px) {
+    #message-container {
+        display:grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 5% 40% 5% 45% 5%;
+        justify-items: center;
+        align-items: center;
+        height:100vh;
+    }
+    
+    #message-window {
+        grid-row-start:2;
+        grid-row-end: 3;
+        z-index:3;
+        background-color:#E6EDDF;
+        justify-self:stretch;
+        align-self:stretch;
+    
+        display:grid;
+        grid-template-rows: 100%;
+        grid-template-columns: auto 250px auto;
+        justify-items: center;
+        align-items: center;
+    }
+    
+    .message {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        height:90%;
+        background-color: #F5CB5C;
+        border-radius: 10px;
+        padding: 10px;
+        z-index: 4;
+    }
+    
+    #message-form {
+        grid-row-start: 4;
+        grid-row-end: 5;
+        z-index: 4;
+        justify-self: center;
+    }
+    .anim-new {
+        animation: new-big 2s ease-in-out 0s 1 normal forwards;
+    }
+    
+    .anim-old {
+        animation: old-big 2s ease-in-out 0s 1 normal forwards;
+    }
+    .new-message {
+        margin-left:1500%;
+    }
 }
 
 .username {
@@ -95,12 +155,8 @@ body {
 }
 
 #message-form {
-    position:fixed;
     width:250px;
-    height:300px;
-    top:60%;
-    left:50%;
-    transform: translateX(-50%);
+    height:100%;
     background-color: #E6EDDF;
     border-radius:10px;
 }

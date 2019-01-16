@@ -42,8 +42,8 @@ $(() => {
      *  Render and animate new message
     */
     socket.on('chat message', (msg) => {
-        $('#message-list').empty();
-        $('#message-list').append('<li alt="new message" class="message new-message anim-new-message">' +
+        $('#message-window').empty();
+        $('#message-window').append('<div alt="new message" class="message new-message anim-new">' +
             '<h1 alt="sender" class="username">' +
             msg.username +
             '</h1>' +
@@ -53,16 +53,14 @@ $(() => {
             '</li>');
 
         setTimeout(() => {
-            $('#message-list li').removeClass('new-message');
-            $('#message-list li').removeClass('anim-new-message');
-        }, 2000);
+            $('#message-window .message').removeClass('new-message');
+            $('#message-window .message').removeClass('anim-new');
+        }, 3000);
         setTimeout(() => {
-            $('#message-list li').addClass('anim-old-message');
+            $('#message-window .message').addClass('anim-old');
         }, (msg.timeout * 1000) - 2000);
     });
 
     /** Recieve delete request from socket */
-    socket.on('delete', () => {
-        $('#message-list').empty();
-    });
+    
 });
