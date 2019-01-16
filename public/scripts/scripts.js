@@ -43,24 +43,24 @@ $(() => {
     */
     socket.on('chat message', (msg) => {
         $('#message-window').empty();
-        $('#message-window').append('<div alt="new message" class="message new-message anim-new">' +
+        $('#message-window').append('<div alt="new message" class="message anim-new">' +
             '<h1 alt="sender" class="username">' +
             msg.username +
-            '</h1>' +
+            ' says...</h1>' +
             '<span alt="message content" class="message-content">' +
             msg.content +
             '</span>' +
             '</li>');
-
         setTimeout(() => {
-            $('#message-window .message').removeClass('new-message');
             $('#message-window .message').removeClass('anim-new');
-        }, 3000);
+        }, 1);
         setTimeout(() => {
             $('#message-window .message').addClass('anim-old');
         }, (msg.timeout * 1000) - 2000);
     });
 
     /** Recieve delete request from socket */
-    
+    socket.on('delete', () => {
+        $('#message-window').empty();
+    });
 });
