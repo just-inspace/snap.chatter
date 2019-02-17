@@ -1,6 +1,6 @@
 /**
  * Server File
- * 
+ *
  * Responsibilities:
  *  * Control all routing
  *  * Control socket.io funcions
@@ -8,11 +8,11 @@
  *    * Associated timers
  *  * Maintain array of messages as queue-like structure
  */
-const router = require('./routes');
-const express = require('express');
+const router = require("./routes");
+const express = require("express");
 const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 // Array of current messages
 let messageList = [];
@@ -28,30 +28,28 @@ let deleteLast = false;
  *   * Send delete request when list is empty
  */
 setTimeout(function message() {
-    let interval = 1;
-    if (messageList.length > 0) {
-        interval = messageList[0].timeout;
-        if (interval) {
-            if (interval < 8)
-                interval = 8;
+	let interval = 1;
+	if (messageList.length > 0) {
+		interval = messageList[0].timeout;
+		if (interval) {
+			if (interval < 8) interval = 8;
 
-            if (interval > 30)
-                interval = 30;
-        } else {
-            interval = 8;
-        }
-        messageList[0].timeout = interval;
+			if (interval > 30) interval = 30;
+		} else {
+			interval = 8;
+		}
+		messageList[0].timeout = interval;
 
-        // Dequeue and emit the oldest message
-        io.emit('chat message', messageList.shift());
-        deleteLast = true;
-    } else if (deleteLast) {
-        interval = 1;
-        io.emit('delete');
-        deleteLast = false;
-    }
+		// Dequeue and emit the oldest message
+		io.emit("chat message", messageList.shift());
+		deleteLast = true;
+	} else if (deleteLast) {
+		interval = 1;
+		io.emit("delete");
+		deleteLast = false;
+	}
 
-    messageTimeout = setTimeout(message, 1000 * interval);
+	messageTimeout = setTimeout(message, 1000 * interval);
 }, 1000);
 
 /**
@@ -61,28 +59,27 @@ setTimeout(function message() {
  *  * 'message limit'
  *  * 'disconnect'
  */
-io.on('connection', (socket) => {
-    console.log("user connected");
+io.on("connection", socket => {
+	console.log("user connected");
 
-    socket.on('chat message', (msg) => {
-        if (messageList.length < 2)
-            messageList.push(msg);
-        else {
-            socket.emit('message limit');
-        }
-    });
+	socket.on("chat message", msg => {
+		if (messageList.length < 10) messageList.push(msg);
+		else {
+			socket.emit("message limit");
+		}
+	});
 
-    socket.on('disconnect', () => {
-        console.log("user disconnected");
-    });
+	socket.on("disconnect", () => {
+		console.log("user disconnected");
+	});
 });
 
 /**
  * HTTP Server Start
  */
-app.use(express.static('public'));
-app.use('/', router);
+app.use(express.static("public"));
+app.use("/", router);
 
 http.listen(1337, () => {
-    console.log("MUCH LISTEN ON 1337");
+	console.log("MUCH LISTEN ON 1337");
 });
